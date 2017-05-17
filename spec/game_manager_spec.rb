@@ -34,7 +34,7 @@ RSpec.describe "Game Manager" do
         describe "when the column is full" do
             it "does not place the token on the board" do
                 alternate = false
-                do rows.times
+                rows.times do
                     unless alternate
                         game_manager.add_token(player_1, 3)
                     else
@@ -42,7 +42,9 @@ RSpec.describe "Game Manager" do
                     end
                     alternate = !alternate
                 end
+
                 expect(game_manager.add_token(player_1, 3)).to be false
+            end
         end
     end
 end
