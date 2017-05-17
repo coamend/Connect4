@@ -46,6 +46,28 @@ RSpec.describe "Game Manager" do
                 expect(game_manager.add_token(player_1, 3)).to be false
             end
         end
+
+        describe "when the placed token is 4 in a row" do
+            before(:each) {
+                alternate = false
+                7.times do
+                    unless alternate
+                        game_manager.add_token(player_1, 3)
+                    else
+                        game_manager.add_token(player_2, 4)
+                    end
+                    alternate = !alternate
+                end
+            }
+            
+            it "shows which player won" do
+                expect(game_manager.winning_player).to eq player_1
+            end
+            
+            it "doesn't allow any more pieces to be added" do
+                expect(game_manager.add_token(player_2, 4)).to be false
+            end
+        end
     end
 end
 
