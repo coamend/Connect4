@@ -1,18 +1,17 @@
 require 'singleton'
-# require 'board'
-require 'cell'
+require 'board'
+require 'player'
 
 class GameManager
     include Singleton
 
-    attr_reader :board
-    attr_reader :player_names
-    attr_reader :current_player
+    attr_reader :board, :players, :current_player
     
     def new_game(columns, rows, players)
-        @board = Array.new(rows) { Array.new(columns) { Cell.new } }
+        @board = Board.new(rows, columns, players)
 
-        @player_names = Array.new(players)
+        @players = Array.new(players.length) { |i| Player.new(players[i], @board) }
+
         @current_player = players.first
     end
 
@@ -20,45 +19,41 @@ class GameManager
         placed = false
 
         if player != @current_player
-            puts 'Nacho turn! player: ' + player.to_s + ' does not match: ' + current_player.to_s         
-        elsif
-            if board.last[column].token != nil
-                # Column is full, can't place more
-                puts 'No room at the inn!'
-            else
-                board.each_with_index do |row,i|
-                    if row[column].token == nil
-                        row[column].token = player
-                        set_next_player(player)
-                        placed = true
-                        break
-                        #TODO - add delegate to notify game of placed token
-                    end
-                end
-            end
+            puts 'Nacho turn! player: ' + player.to_s + ' does not match: ' + @current_player.to_s         
+        else
+            placed = board.add_token(player, column)
         end  
+
+        set_next_player(player) if placed
 
         placed      
     end
-
-    def winning_player
-        board.each do |row|
-            row.each do |cell|
-            end
-        end
-        
-        nil
-    end
     
     def set_next_player(player)
-        player_index = player_names.index(player)
+        player_index = 0
+
+        @players.each_with_index do |test_player, index|
+            if test_player.name == player
+                player_index = index
+            end
+        end
 
         player_index += 1
                 
-        if player_index >= player_names.length
+        if player_index >= @players.length
             player_index = 0
         end
 
-        @current_player = player_names[player_index]
+        @current_player = @players[player_index].name
+    end
+
+    def winning_player
+        victor = nil
+
+        @players.each do |player|
+            victor = player.name if player.won?
+        end
+
+        victor
     end
 end
