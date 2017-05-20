@@ -47,7 +47,7 @@ RSpec.describe "Game Manager" do
             end
         end
 
-        describe "when the placed token is 4 in a row" do
+        describe "when the placed token is 4 in a row vertically" do
             before(:each) {
                 alternate = false
                 7.times do
@@ -55,6 +55,30 @@ RSpec.describe "Game Manager" do
                         game_manager.add_token(player_1, 3)
                     else
                         game_manager.add_token(player_2, 4)
+                    end
+                    alternate = !alternate
+                end
+            }
+            
+            it "shows which player won" do
+                expect(game_manager.winning_player).to eq player_1
+            end
+            
+            it "doesn't allow any more pieces to be added" do
+                expect(game_manager.add_token(player_2, 4)).to be false
+            end
+        end
+
+        describe "when the placed token is 4 in a row horizontally" do
+            before(:each) {
+                alternate = false
+                location = 1
+                7.times do
+                    unless alternate
+                        game_manager.add_token(player_1, location)
+                        location += 1
+                    else
+                        game_manager.add_token(player_2, 0)
                     end
                     alternate = !alternate
                 end

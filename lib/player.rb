@@ -36,6 +36,16 @@ class Player
                 assign_victory(run)
                 run = 0
             end
+
+            if @board.right_edge?(x)
+                # hit right edge of run, right edge of board
+                if !@board.left_edge?(x - run) && @board[row][x - run - 1].token.nil?
+                    values[row][x - run - 1] = run
+                end
+
+                assign_victory(run)
+                run = 0
+            end
         end
         
         # check for vertical values
@@ -53,12 +63,16 @@ class Player
                 assign_victory(run)
                 run = 0
             end
+
+            if @board.top_edge?(y)
+                assign_victory(run)
+                run = 0
+            end
         end
         
     end
 
     def assign_victory(run)
-        puts 'run = ' + run.to_s
         @victor = true if run >= 4 && @victor == false
     end
 
