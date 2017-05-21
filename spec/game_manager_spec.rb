@@ -92,6 +92,32 @@ RSpec.describe "Game Manager" do
                 expect(game_manager.add_token(player_2, 4)).to be false
             end
         end
+
+        describe "when the placed token is 4 in a row diagonally to the right" do
+            before(:each) {
+                alternate = false
+                p1_moves = Array[1, 2, 4, 3, 5, 4]
+                p2_moves = Array[2, 3, 3, 4, 4]
+                move_index = 0
+                (p1_moves.size + p2_moves.size).times do
+                    unless alternate
+                        game_manager.add_token(player_1, p1_moves[move_index])
+                    else
+                        game_manager.add_token(player_2, p2_moves[move_index])
+                        move_index += 1
+                    end
+                    alternate = !alternate
+                end
+            }
+            
+            it "shows which player won" do
+                expect(game_manager.winning_player).to eq player_1
+            end
+            
+            it "doesn't allow any more pieces to be added" do
+                expect(game_manager.add_token(player_2, 4)).to be false
+            end
+        end
     end
 end
 
