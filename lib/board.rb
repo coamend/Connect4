@@ -1,4 +1,4 @@
-require 'cell'
+require_relative 'cell'
 require 'observer'
 
 class Board
