@@ -13,7 +13,7 @@ opt_parser = OptionParser.new do |opt|
     opt.separator  ""
     opt.separator  "Options"
 
-    opt.on("-p","--players NAME, NAME", Array, "set the name of the players in this game") do |players|
+    opt.on("-p","--players NAME,NAME", Array, "set the name of the players in this game") do |players|
         options[:players] = players
     end
 
@@ -45,7 +45,7 @@ when "new"
         current_player = game_manager.current_player
 
         puts current_player + "'s turn!"
-        puts
+        puts options[:players].join(',')
 
         
         # Display the board
