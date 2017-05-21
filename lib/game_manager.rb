@@ -20,7 +20,8 @@ class GameManager
 
         if winning_player.nil?
             if player != @current_player
-                puts 'Nacho turn! player: ' + player.to_s + ' does not match: ' + @current_player.to_s         
+                # Not current player's turn
+                # puts 'Nacho turn! player: ' + player.to_s + ' does not match: ' + @current_player.to_s         
             else
                 placed = board.add_token(player, column)
             end  

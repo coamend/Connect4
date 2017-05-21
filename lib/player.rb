@@ -16,7 +16,7 @@ class Player
 
         # check for horizontal values
         run = 0
-        @board[row].each_with_index do |column,x|
+        @board[row].map.each_with_index do |column,x|
             if column.token == @name
                 run += 1
             elsif column.token.nil?
@@ -50,7 +50,7 @@ class Player
         
         # check for vertical values
         run = 0
-        @board.each_with_index do |row,y|
+        @board.map.each_with_index do |row,y|
             if row[column].token == @name
                 run += 1
             elsif row[column].token.nil?

@@ -17,7 +17,7 @@ class Board
 
         if board.last[column].token != nil
             # Column is full, can't place more
-            puts 'No room at the inn!'
+            # puts 'No room at the inn!'
         else
             board.each_with_index do |row,row_i|
                 if row[column].token == nil
