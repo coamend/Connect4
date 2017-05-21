@@ -14,6 +14,8 @@ class Player
     def board_update(player, column, row)
         values[row][column] == -1 #flag current spot as valueless
 
+        return if player != @name
+
         # check for horizontal values
         run = 0
         @board[row].map.each_with_index do |column,x|
@@ -70,6 +72,47 @@ class Player
             end
         end
         
+        # Check for diagonal right values
+        run = 0
+        bottom_edge = 0
+        top_edge = 0
+
+        # Scan down and to the left
+        pos = 0
+        unless @board.bottom_edge?(row + pos) || @board.left_edge?(column + pos)
+            3.times do |i|
+                pos = -i -1
+                if @board[row + pos][column + pos].token == @name
+                    bottom_edge += 1
+                else
+                    break
+                end
+                
+                if @board.bottom_edge?(row + pos) || @board.left_edge?(column + pos)
+                    break
+                end
+            end
+        end
+
+        # Scan up and to the right
+        pos = 0
+        unless @board.top_edge?(row + pos) || @board.right_edge?(column + pos)
+            3.times do |i|
+                pos = i + 1
+                puts 'Row: ' + (row + pos).to_s + ' Col: ' + (column + pos).to_s + ' Top edge? ' + @board.top_edge?(row + pos).to_s
+                if @board[row + pos][column + pos].token == @name
+                    top_edge += 1
+                else
+                    break
+                end
+
+                if @board.top_edge?(row + pos) || @board.right_edge?(column + pos)
+                    break
+                end
+            end
+        end
+    
+        assign_victory(top_edge + bottom_edge + 1)
     end
 
     def assign_victory(run)

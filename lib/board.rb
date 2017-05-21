@@ -37,19 +37,19 @@ class Board
     end
 
     def left_edge?(column)
-        column == 0
+        column <= 0
     end
 
     def right_edge?(column)
-        column == @columns
+        column >= @columns - 1
     end
 
     def bottom_edge?(row)
-        row == 0
+        row <= 0
     end
     
     def top_edge?(row)
-        row == @rows
+        row >= @rows - 1
     end
 
     def method_missing(method, *args)
