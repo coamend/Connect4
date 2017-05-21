@@ -99,7 +99,6 @@ class Player
         unless @board.top_edge?(row + pos) || @board.right_edge?(column + pos)
             3.times do |i|
                 pos = i + 1
-                puts 'Row: ' + (row + pos).to_s + ' Col: ' + (column + pos).to_s + ' Top edge? ' + @board.top_edge?(row + pos).to_s
                 if @board[row + pos][column + pos].token == @name
                     top_edge += 1
                 else
@@ -107,6 +106,47 @@ class Player
                 end
 
                 if @board.top_edge?(row + pos) || @board.right_edge?(column + pos)
+                    break
+                end
+            end
+        end
+    
+        assign_victory(top_edge + bottom_edge + 1)
+
+        # Check for diagonal left values
+        run = 0
+        bottom_edge = 0
+        top_edge = 0
+
+        # Scan down and to the right
+        pos = 0
+        unless @board.bottom_edge?(row + pos) || @board.right_edge?(column - pos)
+            3.times do |i|
+                pos = -i -1
+                if @board[row + pos][column - pos].token == @name
+                    bottom_edge += 1
+                else
+                    break
+                end
+                
+                if @board.bottom_edge?(row + pos) || @board.right_edge?(column - pos)
+                    break
+                end
+            end
+        end
+
+        # Scan up and to the left
+        pos = 0
+        unless @board.top_edge?(row + pos) || @board.left_edge?(column - pos)
+            3.times do |i|
+                pos = i + 1
+                if @board[row + pos][column - pos].token == @name
+                    top_edge += 1
+                else
+                    break
+                end
+
+                if @board.top_edge?(row + pos) || @board.left_edge?(column - pos)
                     break
                 end
             end
